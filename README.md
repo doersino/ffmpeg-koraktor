@@ -34,9 +34,11 @@ The bits do:
 * `-loop 1 -i endcard.png` loads in the end card (`-loop 1` is required, I think to turn it into an "infinite" video instead of just a single frame, which is needed for fading it in).
 * `-ss 00:01:30 -t 00:00:59` trims the video to only include the interesting bit. Despite this, all future time references are with regard to the original.
 * `[0:v]eq=contrast=1.1:brightness=0.01 [corr]` makes the video prettier and stores in in "corr".
-* `[1:v]fade=in:st=140:d=2:alpha=1 [end]` fades in video at 140s (i.e. 50s into the trimmed span) for 2s and stores in "end".
+* `[1:v]fade=in:st=140:d=2:alpha=1 [end]` fades in the end card at 140s (i.e. 50s into the trimmed span) for 2s and stores in "end".
 * `[corr][end] overlay=0:0:enable='between(t,140,149)' [final]` overlays the two, showing the end card starting at 140s (note that this is also where the fade starts) until 149s (end of video).
 * `[final]fade=in:st=90:d=1,fade=out:st=148:d=1` fades the whole video in and out from black.
+
+Note that `endcard.png` must be the same resolution as the video.
 
 When you run this command, it will look like it's doing nothing for a minute or so – I think it spends that time "scanning" to the start timestamp in a really inefficient way (it probably runs through the filters here already).
 
@@ -54,7 +56,7 @@ ffmpeg -i raw.AVI -loop 1 -i endcard.png -t 00:00:59 -filter_complex "[0:v]crop=
 
 The `ffplay` bit allows for preview of the "colorgrading".
 
-The main bits are very similar to the previous command. `crop=in_h:in_h` makes the video square, and there was no need for trimming off the start here, which made things more straightforward.
+The main bits are very similar to the previous command. `crop=in_h:in_h` makes the video square, and there was no need for trimming off the start here, which made things more straightforward. Note that here, `endcard.png` must be the same resolution as the *output* video.
 
 
 ## Converting all images in a directory into a video
