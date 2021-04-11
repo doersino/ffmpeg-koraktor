@@ -1,10 +1,10 @@
 # ffmpeg-koraktor
 
-An occasionally-growing selection of ffmpeg invocations that have proven handy in various situations.
+An occasionally-growing selection of FFmpeg invocations that have proven handy in various situations.
 
 *I'm calling it "Koraktor" for [reasons](https://de.wikipedia.org/wiki/Koraktor).*
 
-Some of these have been grabbed straight from `history | grep ffmpeg` during the initial writeup of this list – I haven't tested everything for working-tude in current versions of ffmpeg.
+Some of these have been grabbed straight from `history | grep ffmpeg` during the initial writeup of this list – I haven't tested everything for working-tude in current versions of FFmpeg.
 
 
 ## Vertically and horizontally stacking videos
@@ -140,11 +140,31 @@ ffmpeg -ss 00:01:05 -i video.mp4 -filter:v fps=fps=60/1 frames/ffmpeg_%3d.png
 ffmpeg -i video.mp4 -filter:a "volume=2" video-loud.mp4
 ```
 
+## Removing audio
+
+```sh
+ffmpeg -i video.mov -c copy -an video_wosound.mov
+```
+
 
 ## Extracting audio
 
 ```sh
 ffmpeg -i Desktop/video.mp4 Desktop/audio.mp3
+```
+
+
+## Adding WAV audio to a video as MP3
+
+```sh
+ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a mp3 -strict experimental -map 0:v:0 -map 1:a:0 video_with_audio.mp4
+```
+
+
+## Transcoding M4A to MP3
+
+```sh
+ffmpeg -i music.m4a -acodec libmp3lame -ab 256k music.mp3
 ```
 
 
@@ -155,3 +175,10 @@ ffmpeg -i in.mp4 -ss 01:01:00 -t 00:00:10 out.mp4
 ```
 
 Note that `-t` isn't the end, it's the duration.
+
+
+## Convert a video to a more digestible codec
+
+```sh
+ffmpeg -i video.mov -vcodec h264 -acodec mp2 video2.mp4
+```
