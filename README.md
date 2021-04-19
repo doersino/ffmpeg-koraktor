@@ -6,6 +6,20 @@ An occasionally-growing selection of FFmpeg invocations that have proven handy i
 
 Some of these have been grabbed straight from `history | grep ffmpeg` during the initial writeup of this list – I haven't tested everything for working-tude in current versions of FFmpeg.
 
+## Converting a video from `mjpeg`/`pcm_s16le` to `h264`/`aac`
+
+When recording video, y aging camera, a Pentax K-7, produces AVI files that contain an MJPEG-encoded video stream and whatever audio format that in the headline is. The following command compresses those videos to roughly half their size with *zero* perceptible quality loss.
+
+```
+ffmpeg -i raw.AVI -c:v libx264 -preset fast -crf 18 -c:a aac -b:a 192k compressed.mp4
+```
+
+* `-c:v libx264` selects the new video codec.
+* `-preset fast` does the work [faster than the default at the expense of file size](https://trac.ffmpeg.org/wiki/Encode/H.264). I think this steers how many frames are looked at for diffing and stuff.
+* `-crf 18` sets the compression quality – values range from 0 (lossless but uselessly massive) to 51 (just no), with 18 [being visually lossless](https://trac.ffmpeg.org/wiki/Encode/H.264) while still cutting filesizes in half or so.
+* `-c:a aac` selects the new audio codec.
+* `-b:a 192k` sets the bitrate to 192k – this is roughly equivalent to a 256k MP3, *i.e.*, lossless unless you're in a soundproof room with *very* expensive speakers and your ears are made of literal magic.
+
 
 ## Vertically and horizontally stacking videos
 
@@ -89,7 +103,7 @@ ffmpeg -i $VID -vf vidstabtransform,unsharp=5:5:0.8:3:3:0.4 dummy2.mp4
 
 The result will be `dummy2.mp4`. Feel free to give it a better name.
 
-This particualr invocation works well for very shaky video, *i.e.*, kestrels filmed with a 800 mm equivalent lens and basically nonexistant in-camera stabilization. Play with the parameters, perhaps look them up in the documentation.
+This particular invocation works well for very shaky video, *i.e.*, kestrels filmed with a 800 mm equivalent lens and basically non-existent in-camera stabilization. Play with the parameters, perhaps look them up in the documentation.
 
 
 ## Concatenating a list of videos
