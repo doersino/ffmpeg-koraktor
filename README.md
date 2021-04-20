@@ -6,9 +6,9 @@ An occasionally-growing selection of FFmpeg invocations that have proven handy i
 
 Some of these have been grabbed straight from `history | grep ffmpeg` during the initial writeup of this list – I haven't tested everything for working-tude in current versions of FFmpeg.
 
-## Converting a video from `mjpeg`/`pcm_s16le` to `h264`/`aac`
+## Almost losslessly converting a video from `mjpeg`/`pcm_s16le` to `h264`/`aac`
 
-When recording video, y aging camera, a Pentax K-7, produces AVI files that contain an MJPEG-encoded video stream and whatever audio format that in the headline is. The following command compresses those videos to roughly half their size with *zero* perceptible quality loss.
+When recording video, my aging camera, a Pentax K-7, produces AVI files that each contain an MJPEG-encoded video stream and whatever audio format that in the headline is. The following command compresses those videos to roughly half their size with *zero* perceptible quality loss.
 
 ```
 ffmpeg -i raw.AVI -c:v libx264 -preset fast -crf 18 -c:a aac -b:a 192k compressed.mp4
