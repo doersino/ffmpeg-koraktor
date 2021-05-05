@@ -6,6 +6,26 @@ An occasionally-growing selection of FFmpeg invocations that have proven handy i
 
 Some of these have been grabbed straight from `history | grep ffmpeg` during the initial writeup of this list – I haven't tested everything for working-tude in current versions of FFmpeg.
 
+
+## Cutting out a corner
+
+Everybody's done it: Having recorded a neat little video, you realize that a corner of the frame is obscured by your finger or part of whatever you've mounted or perched your camera on.
+
+Assuming the blemish is in the bottom right corner and covers a 250×50 pixel area, the following invocation will crop the video to avoid it, then resize it back to 1920×1080 pixels. (Note that `1030 = 1080 - 50` and `1831 = 1920 * (1030 / 1080)`.)
+
+```
+ffmpeg -i video.mov -vf "crop=1831:1030:0:0,scale=1920:-2" -crf 18 result.mp4
+```
+
+As usual, you can employ `ffplay` to check whether the crop is correct:
+
+```
+ffplay -i video.mov -vf "crop=1831:1030:0:0,scale=1920:-2"
+```
+
+I required this after recording [a 30-minute timelapse of some clouds passing by](https://www.youtube.com/watch?v=JcH9GHx_Rrk) where I failed to notice that part of my little phone tripod thingy was in frame.
+
+
 ## Almost losslessly converting a video from `mjpeg`/`pcm_s16le` to `h264`/`aac`
 
 When recording video, my aging camera, a Pentax K-7, produces AVI files that each contain an MJPEG-encoded video stream and whatever audio format that in the headline is. The following command compresses those videos to roughly half their size with *zero* perceptible quality loss.
