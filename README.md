@@ -6,6 +6,29 @@ An occasionally-growing selection of FFmpeg invocations that have proven handy i
 
 Some of these have been grabbed straight from `history | grep ffmpeg` during the initial writeup of this list – I haven't tested everything for working-tude in current versions of FFmpeg.
 
+There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=26747207) (some of which I found interesting enough to include here for future reference).
+
+## Saving all keyframes to images
+
+This is a good way of getting some high-quality wallpapers from a Ghibli movie, I suppose (via [Hacker News](https://news.ycombinator.com/item?id=26747821)).
+
+```sh
+ffmpeg -i video.mp4 -vf "select=eq(pict_type\,I)" -vsync vfr video-%03d.png
+```
+
+It's pretty quick, too (the `fps` count in FFmpeg's output refers to the image files written, not the progress in the video file).
+
+
+## Extracting 1 second of video every 90 seconds
+
+This one can come in handy to condense a very long video that doesn't look good as a timelapse – think bird nest building, dashcam footage, or reminding yourself what happened in a movie you've seen a while ago (via [Hacker News](https://news.ycombinator.com/item?id=26748165)).
+
+```sh
+ffmpeg -i video.mp4 -vf "select='lt(mod(t,90),1)',setpts=N/FRAME_RATE/TB" -af "aselect='lt(mod(t,90),1)',asetpts=N/SR/TB" out.mp4
+```
+
+The `lt(mod(t,90),1)` bit (repeated twice!) steers the length `1` and interval `90`.
+
 
 ## Cutting out a corner
 
@@ -13,13 +36,13 @@ Everybody's done it: Having recorded a neat little video, you realize that a cor
 
 Assuming the blemish is in the bottom right corner and covers a 250×50 pixel area, the following invocation will crop the video to avoid it, then resize it back to 1920×1080 pixels. (Note that `1030 = 1080 - 50` and `1831 = 1920 * (1030 / 1080)`.)
 
-```
+```sh
 ffmpeg -i video.mov -vf "crop=1831:1030:0:0,scale=1920:-2" -crf 18 result.mp4
 ```
 
 As usual, you can employ `ffplay` to check whether the crop is correct:
 
-```
+```sh
 ffplay -i video.mov -vf "crop=1831:1030:0:0,scale=1920:-2"
 ```
 
@@ -30,7 +53,7 @@ I required this after recording [a 30-minute timelapse of some clouds passing by
 
 When recording video, my aging camera, a Pentax K-7, produces AVI files that each contain an MJPEG-encoded video stream and whatever audio format that in the headline is. The following command compresses those videos to roughly half their size with *zero* perceptible quality loss.
 
-```
+```sh
 ffmpeg -i raw.AVI -c:v libx264 -preset fast -crf 18 -c:a aac -b:a 192k compressed.mp4
 ```
 
