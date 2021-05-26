@@ -8,6 +8,7 @@ Some of these have been grabbed straight from `history | grep ffmpeg` during the
 
 There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=26747207) (some of which I found interesting enough to include here for future reference).
 
+
 ## Saving all keyframes to images
 
 This is a good way of getting some high-quality wallpapers from a Ghibli movie, I suppose (via [Hacker News](https://news.ycombinator.com/item?id=26747821)).
@@ -236,8 +237,19 @@ ffmpeg -i in.mp4 -ss 01:01:00 -t 00:00:10 out.mp4
 Note that `-t` isn't the end, it's the duration.
 
 
-## Convert a video to a more digestible codec
+## Converting a video to a more digestible codec
 
 ```sh
 ffmpeg -i video.mov -vcodec h264 -acodec mp2 video2.mp4
+```
+
+
+## Test patters
+
+More of a curiosity, really (via [Hacker News](https://news.ycombinator.com/item?id=26751167)).
+
+```sh
+ffmpeg -f lavfi -i testsrc=d=60:s=1920x1080:r=24,format=yuv420p -f lavfi -i sine=f=440:b=4 -b:v 1M -b:a 192k -shortest output-testsrc.mp4
+ffmpeg -f lavfi -i testsrc2=d=60:s=1920x1080:r=24,format=yuv420p -f lavfi -i sine=f=440:b=4 -b:v 1M -b:a 192k -shortest output-testsrc.mp4
+ffmpeg -f lavfi -i smptebars=d=60:s=1920x1080:r=24,format=yuv420p -f lavfi -i sine=f=440:b=4 -b:v 1M -b:a 192k -shortest output-smptebars.mp4
 ```
