@@ -9,6 +9,15 @@ Some of these have been grabbed straight from `history | grep ffmpeg` during the
 There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=26747207) (some of which I found interesting enough to include here for future reference).
 
 
+## Scaling a video down to 50% of its original size and halving the frame rate
+
+This is handy for screen recordings (and accordingly assumes the input `fps` was 60):
+
+```sh
+ffmpeg -i in.mov -vf "scale=iw*.5:ih*.5,fps=30" -crf 18 out.mp4
+```
+
+
 ## Saving all keyframes to images
 
 This is a good way of getting some high-quality wallpapers from a Ghibli movie, I suppose (via [Hacker News](https://news.ycombinator.com/item?id=26747821)).
