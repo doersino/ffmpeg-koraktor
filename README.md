@@ -8,6 +8,16 @@ Some of these have been grabbed straight from `history | grep ffmpeg` during the
 
 There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=26747207) (some of which I found interesting enough to include here for future reference).
 
+## Turning a video into a faux slomo video (while also fiddling with the colors and setting a certain output quality)
+
+I've deployed a variant of this to generate the video in [this tweet](https://twitter.com/doersino/status/1424809570262781957). Note that anything more than a slowdown factor of 2 (I've used 8 for the video in the tweet) is invariably going to lead to significant artifacts which make the whole thing basically unusable.
+
+```sh
+ffmpeg -i in.mov -vf "eq=contrast=1.1:brightness=0.08:saturation=1.08,minterpolate='fps=60',setpts=2*PTS" -c:v libx264 -preset fast -crf 20 -c:a aac -b:a 192k out-slow.mp4
+```
+
+(The `minterpolate='fps=60',setpts=2*PTS` part's the important part. This whole thing doesn't do anything to the audio, so it's best to also strip it off using `ffmpeg -i out-slow.mp4 -c copy -an out-slow-silent.mp4`, which doesn't reencode the video.)
+
 
 ## Scaling a video down to 50% of its original size and halving the frame rate
 
