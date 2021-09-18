@@ -8,6 +8,23 @@ Some of these have been grabbed straight from `history | grep ffmpeg` during the
 
 There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=26747207) (some of which I found interesting enough to include here for future reference).
 
+
+## Turning a series of images into a GIF (or GIF, depending on your pronunciation preferences)
+
+This is taken from a [BIT-101](https://www.bit-101.com/blog/2021/09/more-ffmpeg-tips/) post where things in explained in more detail and with more background information. Assuming you've got a series of images `frames/frame_%04d.png`, there's a two-step process:
+
+1. Have FFmpeg analyze your images to generate the ideal palette (since GIFs are limited to 256 colors):
+
+    ```sh
+    ffmpeg -i frames/frame_%04d.png -vf palettegen palette.png
+    ```
+
+2. Assemble the GIF:
+
+    ```sh
+    ffmpeg -framerate 30 -i frames/frame_%04d.png -i palette.png -filter_complex paletteuse out.gif
+    ```
+
 ## Turning a video into a faux slomo video (while also fiddling with the colors and setting a certain output quality)
 
 I've deployed a variant of this to generate the video in [this tweet](https://twitter.com/doersino/status/1424809570262781957). Note that anything more than a slowdown factor of 2 (I've used 8 for the video in the tweet) is invariably going to lead to significant artifacts which make the whole thing basically unusable.
@@ -17,6 +34,8 @@ ffmpeg -i in.mov -vf "eq=contrast=1.1:brightness=0.08:saturation=1.08,minterpola
 ```
 
 (The `minterpolate='fps=60',setpts=2*PTS` part's the important part. This whole thing doesn't do anything to the audio, so it's best to also strip it off using `ffmpeg -i out-slow.mp4 -c copy -an out-slow-silent.mp4`, which doesn't reencode the video.)
+
+(Note that while experimenting, you can use the `-y` flag to keep FFmpeg from asking whether to override files.)
 
 
 ## Scaling a video down to 50% of its original size and halving the frame rate
