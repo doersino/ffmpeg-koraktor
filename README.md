@@ -11,6 +11,15 @@ There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=2
 *Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php).
 
 
+## Making a video black and white
+
+Via [Alastair Tse](https://twitter.com/liquidx/status/1524626492784664577):
+
+```sh
+ffmpeg -i "${x}" -vf hue=s=0,eq=brightness=0.1 "${OUTPUT_DIR}/${x}"
+```
+
+
 ## Turning a series of images into a GIF (or GIF, depending on your pronunciation preferences)
 
 This is taken from a [BIT-101](https://www.bit-101.com/blog/2021/09/more-ffmpeg-tips/) post where things in explained in more detail and with more background information. Assuming you've got a series of images `frames/frame_%04d.png`, there's a two-step process:
