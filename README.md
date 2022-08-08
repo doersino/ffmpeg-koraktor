@@ -11,6 +11,14 @@ There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=2
 *Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php).
 
 
+## Speeding up a video (+ audio) by 400% while setting a different framerate
+
+```sh
+ffmpeg -i video.mov -filter:v "setpts=0.25*PTS,fps=60" -filter:a "atempo=4.0" output.mp4
+```
+
+Explanation: `setpts=0.25*PTS` speeds up the video (to 0.25 of its original duration, *i.e.*, a 400% speedup), `fps=60` sets the target framerate, and the audio filter `atempo=4.0` speeds up the audio by 400%.
+
 ## Making a video black and white
 
 Via [Alastair Tse](https://twitter.com/liquidx/status/1524626492784664577):
