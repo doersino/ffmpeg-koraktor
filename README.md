@@ -310,3 +310,29 @@ ffmpeg -f lavfi -i testsrc=d=60:s=1920x1080:r=24,format=yuv420p -f lavfi -i sine
 ffmpeg -f lavfi -i testsrc2=d=60:s=1920x1080:r=24,format=yuv420p -f lavfi -i sine=f=440:b=4 -b:v 1M -b:a 192k -shortest output-testsrc.mp4
 ffmpeg -f lavfi -i smptebars=d=60:s=1920x1080:r=24,format=yuv420p -f lavfi -i sine=f=440:b=4 -b:v 1M -b:a 192k -shortest output-smptebars.mp4
 ```
+
+
+## Bonus: Averaging a series of images with ImageMagick
+
+```sh
+convert image1.jpg ... imageN.jpg -evaluate-sequence Mean average.jpg
+```
+
+Also possible: Pixel-wise min/max/median.
+
+```sh
+convert image1.jpg ... imageN.jpg -evaluate-sequence Min minimum.jpg
+convert image1.jpg ... imageN.jpg -evaluate-sequence Max maximum.jpg
+convert image1.jpg ... imageN.jpg -evaluate-sequence Median median.jpg
+```
+
+More possible modes of the `-evaluate-sequence` tool can be found out by running `convert -list evaluate`.
+
+
+## Bounus: Making a GIF with ImageMagick
+
+```sh
+convert -delay 15 -loop 0 -dispose previous * -resize 1000x1000\> animated.gif
+```
+
+The delay between successive frames must be given in hundreths of a second, `-loop` should be zero for a proper GIF, and `-resize` isn't required but it's usually sensible.
