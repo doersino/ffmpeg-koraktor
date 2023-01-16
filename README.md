@@ -11,6 +11,17 @@ There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=2
 *Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php).
 
 
+## Straightening (rotating and cropping) a video
+
+For example:
+
+```sh
+ffmpeg -i DSCF3983.MOV  -vf "rotate=-PI/90:ow='iw*0.92':oh='ih*0.92'" out.mp4
+```
+
+This rotates a video by `-π/90`, i.e. one degree counterclockwise (you'll have to convert your degrees to radians). The resulting video would end up with black triangles in the corners, so we crop in by 5% via `ow='iw*0.95':oh='ih*0.95'`. This'll depend on the angle (you could use trigonometry to figure this out, alas, trial & error requires less thought).
+
+
 ## Speeding up a video (+ audio) by 400% while setting a different framerate
 
 ```sh
