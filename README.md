@@ -10,6 +10,14 @@ There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=2
 
 *Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php).
 
+## Cropping a letterboxed originally-vertical 1080p video
+
+```sh
+ffmpeg -i input.mp4  -vf "crop=606:1080:657:0" -crf 24 result.mp4
+```
+
+Numbers (format `w:h:x:y`, where `x:y` is counted from the top left corner) might differ depending on interpolation. And `-crf 24` is a quality setting – lower is better, 18 is basically lossless.
+
 
 ## Straightening (rotating and cropping) a video
 
