@@ -8,7 +8,7 @@ Some of these have been grabbed straight from `history | grep ffmpeg` during the
 
 There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=26747207) (some of which I found interesting enough to include here for future reference).
 
-*Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php).
+*Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php), [ffmprovisr](https://amiaopensource.github.io/ffmprovisr/).
 
 ## Cropping a letterboxed originally-vertical 1080p video
 
