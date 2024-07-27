@@ -65,7 +65,7 @@ This is taken from a [BIT-101](https://www.bit-101.com/blog/2021/09/more-ffmpeg-
 
 ## Turning a video into a faux slomo video (while also fiddling with the colors and setting a certain output quality)
 
-I've deployed a variant of this to generate the video in [this tweet](https://twitter.com/doersino/status/1424809570262781957). Note that anything more than a slowdown factor of 2 (I've used 8 for the video in the tweet) is invariably going to lead to significant artifacts which make the whole thing basically unusable.
+Note that anything more than a slowdown factor of 2 (I've used 8 for the video in the tweet) is invariably going to lead to significant artifacts which make the whole thing basically unusable.
 
 ```sh
 ffmpeg -i in.mov -vf "eq=contrast=1.1:brightness=0.08:saturation=1.08,minterpolate='fps=60',setpts=2*PTS" -c:v libx264 -preset fast -crf 20 -c:a aac -b:a 192k out-slow.mp4
