@@ -10,6 +10,18 @@ There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=2
 
 *Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php), [ffmprovisr](https://amiaopensource.github.io/ffmprovisr/).
 
+
+# Adding one video's audio track to another video with delay while keeping its audio/subs intact
+
+Assuming you want to add the audio track from your legally-obtained German version of *The Nightmare Before Christmas* to your equally-legally-obtained English copy with a little bit of delay to account for different distributor logos at the beginning, this is how you'd do it:
+
+```
+ffmpeg -i "The Nightmare Before Christmas [EN].mkv" -itsoffset 36 -i "The Nightmare before Christmas [DE].avi" -map 0:v -map 0:a -map 0:s -map 1:a -c copy -max_interleave_delta 0 "result.mkv"
+```
+
+The `-map 0:v -map 0:a -map 0:s` bit takes all video, audio, and subtitle streams from the first video, then `-map 1:a` adds the second video's audio stream(s) offset by `-itsoffset 36` seconds. The `-max_interleave_delta 0` part is taken from [here](https://www.reddit.com/r/ffmpeg/comments/efddfs/starting_new_cluster_due_to_timestamp/) – otherwise the added audio will be silent for some reason.
+
+
 ## Cropping a letterboxed originally-vertical 1080p video
 
 ```sh
