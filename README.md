@@ -11,7 +11,7 @@ There's more in [this Hacker News thread](https://news.ycombinator.com/item?id=2
 *Related:* [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.php), [ffmprovisr](https://amiaopensource.github.io/ffmprovisr/), [FFmpeg By Example](https://ffmpegbyexample.com).
 
 
-# Adding one video's audio track to another video with delay while keeping its audio/subs intact
+## Adding one video's audio track to another video with delay while keeping its audio/subs intact
 
 Assuming you want to add the audio track from your legally-obtained German version of *The Nightmare Before Christmas* to your equally-legally-obtained English copy with a little bit of delay to account for different distributor logos at the beginning, this is how you'd do it:
 
