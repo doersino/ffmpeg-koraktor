@@ -360,7 +360,7 @@ convert image1.jpg ... imageN.jpg -evaluate-sequence Median median.jpg
 More possible modes of the `-evaluate-sequence` tool can be found out by running `convert -list evaluate`.
 
 
-## Bounus: Making a GIF with ImageMagick
+## Bonus: Making a GIF with ImageMagick
 
 ```sh
 convert -delay 15 -loop 0 -dispose previous * -resize 1000x1000\> animated.gif
